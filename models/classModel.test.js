@@ -26,10 +26,16 @@ describe('Class Model', () => {
       expect(JSON.parse(classesData).length).toBe(1);
     });
 
-    it('generate an ID for the created class', async () => {
+    it('generates an ID for the created class', async () => {
       const newClass = await classModel.storeClass(newClassData);
 
       expect(newClass.id).toBeDefined();
+    });
+
+    it('initializes the bookings for that class', async () => {
+      const newClass = await classModel.storeClass(newClassData);
+
+      expect(newClass.classDates).toEqual(expect.any(Object));
     });
   });
 });

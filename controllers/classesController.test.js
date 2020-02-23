@@ -44,6 +44,7 @@ describe('POST /classes', () => {
 
     expect(response.body).toEqual({
       id: expect.any(String),
+      classDates: expect.any(Object),
       ...validClassParams,
     });
   });
