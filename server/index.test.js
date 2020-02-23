@@ -17,30 +17,3 @@ describe('Available endpoints', () => {
     expect(res.statusCode).not.toEqual(404);
   });
 });
-
-describe('POST /classes', () => {
-  it('should return 400 when request does not match JSON schema', async () => {
-    await request(server)
-      .post('/classes')
-      .send({
-        name: 'Yoga Class Foo',
-      })
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(400);
-  });
-
-  it('should return 200 when class has been created', async () => {
-    await request(server)
-      .post('/classes')
-      .send({
-        name: 'Yoga Class Foo',
-        startDate: '2020-01-01',
-        endDate: '2020-12-31',
-        capacity: 15,
-      })
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200);
-  });
-});
