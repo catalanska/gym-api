@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gym-api/schemas/class.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "startDate",
+    "endDate",
+    "capacity"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|cha_[0-9a-f]{32}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "capacity": {
+      "type": "number"
+    }
+  }
+}
