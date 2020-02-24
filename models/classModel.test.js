@@ -37,5 +37,15 @@ describe('Class Model', () => {
 
       expect(newClass.classDates).toEqual(expect.any(Object));
     });
+
+    it('throws an Error if the given range of dates is invalid', () => {
+      classModel.storeClass({
+        ...newClassData,
+        endDate: '2019-01-01',
+      })
+        .catch((error) => {
+          expect(error).toEqual(new Error('Invalid dates'));
+        });
+    });
   });
 });

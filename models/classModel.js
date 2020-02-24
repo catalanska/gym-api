@@ -1,10 +1,12 @@
-const fs = require('fs');
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const { getDatesInPeriod } = require('../lib/datesHelper');
+const { isValidDateRange } = require('../lib/validators');
+const { writeRecord } = require('../lib/dbInterface');
 
-const fsPromises = fs.promises;
-const classDBPath = path.join('db/classes.json');
+function validateClassParams(classParams) {
+  const { startDate, endDate } = classParams;
+  if (!isValidDateRange(startDate, endDate)) throw new Error('Invalid dates');
+}
 
 function createClassDatesObject(classParams) {
   const bookingDates = getDatesInPeriod(classParams);
@@ -17,16 +19,15 @@ function createClassDatesObject(classParams) {
 }
 
 exports.storeClass = async function storeClass(classParams) {
+  validateClassParams(classParams);
+
   const newClassData = {
     id: uuidv4(),
     classDates: createClassDatesObject(classParams),
     ...classParams,
   };
-  const rawClassDB = await fsPromises.readFile(classDBPath);
-  const classDB = JSON.parse(rawClassDB);
-  classDB.push(newClassData);
 
-  await fsPromises.writeFile(classDBPath, JSON.stringify(classDB, null, 2));
+  await writeRecord(newClassData);
 
   return Promise.resolve(newClassData);
 };

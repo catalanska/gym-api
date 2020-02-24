@@ -23,6 +23,18 @@ describe('POST /classes', () => {
       .expect(400);
   });
 
+  it('should return 422 when validation of dates fail', async () => {
+    await request(server)
+      .post('/classes')
+      .send({
+        ...validClassParams,
+        endDate: '2019-01-01',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(422);
+  });
+
   it('should return 500 when class could not be created', async () => {
     jest.spyOn(fsPromises, 'writeFile').mockImplementationOnce((fileName, content, callback) => callback('error happened'));
 
