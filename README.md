@@ -42,4 +42,25 @@ npm test
 ```sh
 npm start
 ```
-3. Launch you requests. A [Postman collection](https://github.com/catalanska/gym-api/tree/master/postman_collection.json) has been added to the repo to help testing it
+3. Launch your requests. A [Postman collection](https://github.com/catalanska/gym-api/tree/master/postman_collection.json) has been added to the repo to make the testing easier.
+
+3.1 Create a new class
+```bash
+curl --location --request POST 'http://localhost:1234/classes' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+		"name": "Yoga",
+		"startDate": "2020-10-10",
+		"endDate": "2020-10-10",
+		"capacity": 10
+}'
+```
+3.2 Create a new booking
+```bash
+curl --location --request POST 'http://localhost:1234/bookings' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+		"name": "Javier J",
+		"date": "2020-10-10"
+}'
+```
