@@ -1,11 +1,11 @@
-const request = require('supertest');
 const fs = require('fs');
+const request = require('supertest');
 const server = require('../server');
 const { resetDB, writeRecord } = require('../lib/dbInterface');
 
 const fsPromises = fs.promises;
 
-describe('POST /classes', () => {
+describe('POST /bookings', () => {
   beforeEach(async () => {
     await resetDB('classes');
     await resetDB('calendar');
@@ -16,37 +16,35 @@ describe('POST /classes', () => {
     await resetDB('calendar');
   });
 
-  const validClassParams = {
-    name: 'Yoga Class Foo',
-    startDate: '2020-01-01',
-    endDate: '2020-12-31',
-    capacity: 15,
+  const validBookingParams = {
+    name: 'Javier J',
+    date: '2020-01-01',
   };
 
   it('should return 400 when request does not match Schema', async () => {
     await request(server)
-      .post('/classes')
+      .post('/bookings')
       .send({
-        name: 'Yoga Class Foo',
+        name: 'Javier',
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(400);
   });
 
-  it('should return 422 when validation of dates fail', async () => {
+  it('should return 422 when booking is not available', async () => {
     await request(server)
-      .post('/classes')
+      .post('/bookings')
       .send({
-        ...validClassParams,
-        endDate: '2019-01-01',
+        ...validBookingParams,
+        date: '2019-01-01',
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(422);
   });
 
-  it('should return 422 when another class is registered for  the given dates', async () => {
+  it('should return 200 when booking has been created', async () => {
     const date = '2020-01-01';
     await writeRecord('calendar', {
       [date]: {
@@ -57,35 +55,29 @@ describe('POST /classes', () => {
     });
 
     await request(server)
-      .post('/classes')
-      .send(validClassParams)
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(422);
-  });
-
-  it('should return 500 when class could not be created', async () => {
-    jest.spyOn(fsPromises, 'writeFile').mockImplementationOnce(() => { throw new Error('error happened'); });
-
-    await request(server)
-      .post('/classes')
-      .send(validClassParams)
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(500);
-  });
-
-  it('should return 200 when class has been created', async () => {
-    const response = await request(server)
-      .post('/classes')
-      .send(validClassParams)
+      .post('/bookings')
+      .send(validBookingParams)
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200);
+  });
 
-    expect(response.body).toEqual({
-      id: expect.any(String),
-      ...validClassParams,
+  it('should return 500 when booking could not be created', async () => {
+    const date = '2020-01-01';
+    await writeRecord('calendar', {
+      [date]: {
+        date,
+        bookings: [],
+        classId: 'foo',
+      },
     });
+    jest.spyOn(fsPromises, 'writeFile').mockImplementationOnce(() => { throw new Error('error happened'); });
+
+    await request(server)
+      .post('/bookings')
+      .send(validBookingParams)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(500);
   });
 });

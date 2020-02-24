@@ -1,7 +1,16 @@
-const { findRecord, findRecords, writeRecords } = require('../lib/dbInterface');
+const {
+  findRecord, findRecords, writeRecords, updateRecord,
+} = require('../lib/dbInterface');
 const { getDatesInPeriod } = require('../lib/datesHelper');
 
 const tableName = 'calendar';
+
+exports.addBooking = async function updateEntry(entry, bookingName) {
+  entry.bookings.push(bookingName);
+
+  await updateRecord(tableName, entry.date, entry);
+  return entry;
+};
 
 exports.findCalendarEntry = async function findCalendarEntry(dateString) {
   const entry = await findRecord(tableName, dateString);

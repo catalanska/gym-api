@@ -5,6 +5,7 @@ const classesRouter = require('../routes/classes');
 const classSchema = require('../public/schemas/class.json');
 
 const bookingsRouter = require('../routes/bookings');
+const bookingSchema = require('../public/schemas/booking.json');
 
 const validator = new Validator({ allErrors: true });
 const { validate } = validator;
@@ -13,7 +14,7 @@ const server = express();
 
 server.use(express.json());
 server.use('/classes', validate({ body: classSchema }), classesRouter);
-server.use('/bookings', bookingsRouter);
+server.use('/bookings', validate({ body: bookingSchema }), bookingsRouter);
 
 server.use((err, req, res, next) => {
   if (err instanceof ValidationError) {

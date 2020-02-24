@@ -60,4 +60,24 @@ describe('Calendar Model', () => {
       expect(areDatesAvailable).toBeFalsy();
     });
   });
+
+  describe('#addBooking', () => {
+    const date = '2020-01-01';
+    const entry = {
+      date,
+      bookings: [],
+      classId: 'foo',
+    };
+
+    it('should find entry for 2020-01-01', async () => {
+      await writeRecord('calendar', {
+        [date]: entry,
+      });
+
+      await calendarModel.addBooking(entry, 'Javier J');
+      const calendarEntry = await calendarModel.findCalendarEntry(date);
+
+      expect(calendarEntry.bookings.length).toBe(1);
+    });
+  });
 });

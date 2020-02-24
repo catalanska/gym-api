@@ -1,9 +1,8 @@
 const express = require('express');
 
 const router = express.Router();
+const classesController = require('../controllers/bookingsController');
 
-router.post('/', (req, res) => {
-  res.send('Create booking endpoint to be implemented');
-});
+router.post('/', classesController.createClass);
 
 module.exports = router;
