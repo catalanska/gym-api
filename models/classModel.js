@@ -3,6 +3,8 @@ const { getDatesInPeriod } = require('../lib/datesHelper');
 const { isValidDateRange } = require('../lib/validators');
 const { writeRecord } = require('../lib/dbInterface');
 
+const tableName = 'classes';
+
 function validateClassParams(classParams) {
   const { startDate, endDate } = classParams;
   if (!isValidDateRange(startDate, endDate)) throw new Error('Invalid dates');
@@ -27,7 +29,7 @@ exports.storeClass = async function storeClass(classParams) {
     ...classParams,
   };
 
-  await writeRecord(newClassData);
+  await writeRecord(tableName, newClassData);
 
   return Promise.resolve(newClassData);
 };
