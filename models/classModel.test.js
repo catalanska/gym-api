@@ -1,9 +1,6 @@
-const fs = require('fs');
-const path = require('path');
 const classModel = require('./classModel');
 
-const fsPromises = fs.promises;
-const classDBPath = path.join('db/classes.json');
+const { findRecord, resetDB } = require('../lib/dbInterface');
 
 describe('Class Model', () => {
   describe('#storeClass', () => {
@@ -15,37 +12,25 @@ describe('Class Model', () => {
     };
 
     beforeEach(async () => {
-      await fsPromises.writeFile(classDBPath, JSON.stringify([]));
+      await resetDB('classes');
+    });
+
+    afterAll(async () => {
+      await resetDB('classes');
     });
 
     it('should store new class', async () => {
-      await classModel.storeClass(newClassData);
+      const newClass = await classModel.storeClass(newClassData);
 
-      const classesData = await fsPromises.readFile(classDBPath);
+      const record = await findRecord('classes', newClass.id);
 
-      expect(JSON.parse(classesData).length).toBe(1);
+      expect(record).toBeDefined();
     });
 
     it('generates an ID for the created class', async () => {
       const newClass = await classModel.storeClass(newClassData);
 
       expect(newClass.id).toBeDefined();
-    });
-
-    it('initializes the bookings for that class', async () => {
-      const newClass = await classModel.storeClass(newClassData);
-
-      expect(newClass.classDates).toEqual(expect.any(Object));
-    });
-
-    it('throws an Error if the given range of dates is invalid', () => {
-      classModel.storeClass({
-        ...newClassData,
-        endDate: '2019-01-01',
-      })
-        .catch((error) => {
-          expect(error).toEqual(new Error('Invalid dates'));
-        });
     });
   });
 });

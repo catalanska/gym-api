@@ -1,7 +1,18 @@
 const request = require('supertest');
 const server = require('./index');
+const { resetDB } = require('../lib/dbInterface');
 
 describe('Available endpoints', () => {
+  beforeEach(async () => {
+    await resetDB('classes');
+    await resetDB('calendar');
+  });
+
+  afterAll(async () => {
+    await resetDB('classes');
+    await resetDB('calendar');
+  });
+
   it('should return 404 when endpoint does not exist', async () => {
     const res = await request(server).get('/customers');
     expect(res.statusCode).toEqual(404);

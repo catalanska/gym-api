@@ -1,54 +1,63 @@
-const fs = require('fs');
-const path = require('path');
 const calendarModel = require('./calendarModel');
 
-const fsPromises = fs.promises;
-const dBPath = path.join('db/calendar.json');
+const { resetDB, findRecord, writeRecord } = require('../lib/dbInterface');
 
 describe('Calendar Model', () => {
+  beforeEach(async () => {
+    await resetDB('calendar');
+  });
+
+  afterAll(async () => {
+    await resetDB('calendar');
+  });
+
   describe('#findCalendarEntry', () => {
-    const date = '2020-01-01';
-    const newCalendarEntry = {
-      date,
-      bookings: [],
-      classId: 'foo',
-    };
-
-    beforeEach(async () => {
-      await fsPromises.writeFile(dBPath, JSON.stringify({
-        [date]: newCalendarEntry,
-      }));
-    });
-
     it('should find entry for 2020-01-01', async () => {
-      const calendarEntry = await calendarModel.findCalendarEntry(date);
+      await writeRecord('calendar', {
+        '2020-01-01': {
+          bookings: [],
+          classId: 'foo',
+        },
+      });
+
+      const calendarEntry = await calendarModel.findCalendarEntry('2020-01-01');
+
       expect(calendarEntry).toBeDefined();
     });
 
     it('should NOT find entry for 2020-01-02', async () => {
       const calendarEntry = await calendarModel.findCalendarEntry('2020-01-02');
+
       expect(calendarEntry).not.toBeDefined();
     });
   });
 
-  describe('#storeCalendarEntry', () => {
+  describe('#storeCalendarEntries', () => {
     const date = '2020-01-01';
-    const classId = 'bar';
-    let calendarEntry;
-
-    beforeEach(async () => {
-      await fsPromises.writeFile(dBPath, JSON.stringify({}));
-      calendarEntry = await calendarModel.storeCalendarEntry(date, classId);
-    });
-
-    it('create the proper object', async () => {
-      expect(calendarEntry).toBeDefined();
-    });
+    const classObject = { id: 'bar' };
 
     it('persist entry in db', async () => {
-      const calendarEntriesData = await fsPromises.readFile(dBPath);
+      await calendarModel.storeCalendarEntries([date], classObject);
+      const calendarEntry = await findRecord('calendar', date);
 
-      expect(JSON.parse(calendarEntriesData)[date]).toBeDefined();
+      expect(calendarEntry).toBeDefined();
+    });
+  });
+
+  describe('#areDatesAvailable', () => {
+    const startDate = '2020-01-01';
+    const endDate = '2020-01-02';
+
+    it('returns true if there are no entries in the calendar for those dates', async () => {
+      expect(calendarModel.areDatesAvailable(startDate, endDate)).toBeTruthy();
+    });
+
+    it('returns false if there are entries in the calendar for those dates', async () => {
+      await calendarModel.storeCalendarEntries([startDate], { id: 'foo' });
+
+      const areDatesAvailable = await calendarModel.areDatesAvailable(startDate, endDate);
+
+      expect(areDatesAvailable).toBeFalsy();
     });
   });
 });

@@ -1,4 +1,5 @@
-const { findRecord, writeRecord } = require('../lib/dbInterface');
+const { findRecord, findRecords, writeRecords } = require('../lib/dbInterface');
+const { getDatesInPeriod } = require('../lib/datesHelper');
 
 const tableName = 'calendar';
 
@@ -7,15 +8,21 @@ exports.findCalendarEntry = async function findCalendarEntry(dateString) {
   return entry;
 };
 
-exports.storeCalendarEntry = async function findCalendarEntry(dateString, classObject) {
-  const entry = {
-    [dateString]: {
-      date: dateString,
+exports.storeCalendarEntries = async function storeCalendarEntries(dates, classObject) {
+  const entries = await Promise.all(dates.map(async (date) => ({
+    [date]: {
+      date,
       bookings: [],
       classId: classObject.id,
     },
-  };
-  await writeRecord(tableName, entry);
+  })));
 
-  return entry;
+  await writeRecords(tableName, entries);
+};
+
+exports.areDatesAvailable = async function areDatesAvailable(startDate, endDate) {
+  const dates = getDatesInPeriod({ startDate, endDate });
+  const records = await findRecords(tableName, dates);
+
+  return records.length === 0;
 };

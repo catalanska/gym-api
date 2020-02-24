@@ -1,10 +1,21 @@
 const request = require('supertest');
 const fs = require('fs');
 const server = require('../server');
+const { resetDB } = require('../lib/dbInterface');
 
 const fsPromises = fs.promises;
 
 describe('POST /classes', () => {
+  beforeEach(async () => {
+    await resetDB('classes');
+    await resetDB('calendar');
+  });
+
+  afterAll(async () => {
+    await resetDB('classes');
+    await resetDB('calendar');
+  });
+
   const validClassParams = {
     name: 'Yoga Class Foo',
     startDate: '2020-01-01',
@@ -56,7 +67,6 @@ describe('POST /classes', () => {
 
     expect(response.body).toEqual({
       id: expect.any(String),
-      classDates: expect.any(Object),
       ...validClassParams,
     });
   });
