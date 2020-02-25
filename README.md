@@ -3,15 +3,16 @@
 </p>
 
 
-### Built With
-* [nodejs v12.16.1](https://nodejs.org/en/download/)
+### Built using
+* [node](https://nodejs.org/en/download/)
 * [jest](https://jestjs.io/en/)
+* [json schema](https://json-schema.org/)
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This project does not require any database, just nodejs v12 to run.
+For simplicity, this project does not use any database, just nodejs v12 to run. Data created is stored under `db/` folder
 
 ### Prerequisites
 
