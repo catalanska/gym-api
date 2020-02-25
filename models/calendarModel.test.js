@@ -49,7 +49,9 @@ describe('Calendar Model', () => {
     const endDate = '2020-01-02';
 
     it('returns true if there are no entries in the calendar for those dates', async () => {
-      expect(calendarModel.areDatesAvailable(startDate, endDate)).toBeTruthy();
+      const areDatesAvailable = await calendarModel.areDatesAvailable(startDate, endDate);
+
+      expect(areDatesAvailable).toBeTruthy();
     });
 
     it('returns false if there are entries in the calendar for those dates', async () => {
