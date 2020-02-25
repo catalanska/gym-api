@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1582587324839" clover="3.2.0">
-  <project timestamp="1582587324839" name="All files">
-    <metrics statements="154" coveredstatements="153" conditionals="18" coveredconditionals="17" methods="32" coveredmethods="32" elements="204" coveredelements="202" complexity="0" loc="154" ncloc="154" packages="5" files="12" classes="12"/>
+<coverage generated="1582633073038" clover="3.2.0">
+  <project timestamp="1582633073038" name="All files">
+    <metrics statements="159" coveredstatements="157" conditionals="20" coveredconditionals="18" methods="35" coveredmethods="35" elements="214" coveredelements="210" complexity="0" loc="159" ncloc="159" packages="5" files="12" classes="12"/>
     <package name="controllers">
       <metrics statements="19" coveredstatements="19" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
       <file name="bookingsController.js" path="/Users/javierjv/Workspace/catalanska/gym-api/controllers/bookingsController.js">
@@ -31,7 +31,7 @@
       </file>
     </package>
     <package name="lib">
-      <metrics statements="82" coveredstatements="82" conditionals="10" coveredconditionals="10" methods="19" coveredmethods="19"/>
+      <metrics statements="87" coveredstatements="86" conditionals="12" coveredconditionals="11" methods="22" coveredmethods="22"/>
       <file name="createBookingService.js" path="/Users/javierjv/Workspace/catalanska/gym-api/lib/createBookingService.js">
         <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
@@ -85,39 +85,44 @@
         <line num="30" count="4" type="stmt"/>
       </file>
       <file name="dbInterface.js" path="/Users/javierjv/Workspace/catalanska/gym-api/lib/dbInterface.js">
-        <metrics statements="32" coveredstatements="32" conditionals="0" coveredconditionals="0" methods="10" coveredmethods="10"/>
+        <metrics statements="37" coveredstatements="36" conditionals="2" coveredconditionals="1" methods="13" coveredmethods="13"/>
         <line num="1" count="6" type="stmt"/>
         <line num="2" count="6" type="stmt"/>
         <line num="4" count="6" type="stmt"/>
         <line num="6" count="90" type="stmt"/>
         <line num="9" count="30" type="stmt"/>
         <line num="10" count="30" type="stmt"/>
-        <line num="11" count="30" type="stmt"/>
-        <line num="12" count="29" type="stmt"/>
-        <line num="15" count="6" type="stmt"/>
-        <line num="16" count="8" type="stmt"/>
-        <line num="18" count="8" type="stmt"/>
-        <line num="21" count="6" type="stmt"/>
-        <line num="22" count="6" type="stmt"/>
-        <line num="24" count="5" type="stmt"/>
-        <line num="25" count="1102" type="stmt"/>
-        <line num="28" count="5" type="stmt"/>
-        <line num="29" count="1102" type="stmt"/>
-        <line num="32" count="5" type="stmt"/>
-        <line num="35" count="6" type="stmt"/>
-        <line num="36" count="9" type="stmt"/>
-        <line num="38" count="9" type="stmt"/>
-        <line num="43" count="9" type="stmt"/>
-        <line num="46" count="6" type="stmt"/>
-        <line num="47" count="4" type="stmt"/>
-        <line num="48" count="4" type="stmt"/>
-        <line num="50" count="4" type="stmt"/>
-        <line num="53" count="6" type="stmt"/>
-        <line num="54" count="3" type="stmt"/>
-        <line num="55" count="3" type="stmt"/>
-        <line num="57" count="3" type="stmt"/>
-        <line num="61" count="6" type="stmt"/>
-        <line num="62" count="44" type="stmt"/>
+        <line num="11" count="30" type="cond" truecount="1" falsecount="1"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="30" type="stmt"/>
+        <line num="20" count="30" type="stmt"/>
+        <line num="21" count="30" type="stmt"/>
+        <line num="22" count="30" type="stmt"/>
+        <line num="24" count="30" type="stmt"/>
+        <line num="27" count="6" type="stmt"/>
+        <line num="28" count="8" type="stmt"/>
+        <line num="30" count="8" type="stmt"/>
+        <line num="33" count="6" type="stmt"/>
+        <line num="34" count="6" type="stmt"/>
+        <line num="36" count="6" type="stmt"/>
+        <line num="37" count="1104" type="stmt"/>
+        <line num="40" count="6" type="stmt"/>
+        <line num="41" count="1104" type="stmt"/>
+        <line num="44" count="6" type="stmt"/>
+        <line num="47" count="6" type="stmt"/>
+        <line num="48" count="9" type="stmt"/>
+        <line num="50" count="9" type="stmt"/>
+        <line num="55" count="9" type="stmt"/>
+        <line num="58" count="6" type="stmt"/>
+        <line num="59" count="4" type="stmt"/>
+        <line num="60" count="4" type="stmt"/>
+        <line num="62" count="4" type="stmt"/>
+        <line num="65" count="6" type="stmt"/>
+        <line num="66" count="3" type="stmt"/>
+        <line num="67" count="3" type="stmt"/>
+        <line num="69" count="3" type="stmt"/>
+        <line num="73" count="6" type="stmt"/>
+        <line num="74" count="44" type="stmt"/>
       </file>
       <file name="validators.js" path="/Users/javierjv/Workspace/catalanska/gym-api/lib/validators.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
@@ -150,7 +155,7 @@
         <line num="32" count="4" type="stmt"/>
         <line num="33" count="5" type="stmt"/>
         <line num="34" count="5" type="stmt"/>
-        <line num="36" count="4" type="stmt"/>
+        <line num="36" count="5" type="stmt"/>
       </file>
       <file name="classModel.js" path="/Users/javierjv/Workspace/catalanska/gym-api/models/classModel.js">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>

@@ -27,9 +27,6 @@
     },
     "capacity": {
       "type": "number"
-    },
-    "classDates": {
-      "type": "object"
     }
   }
 }
